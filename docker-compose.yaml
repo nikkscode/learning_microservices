@@ -1,9 +1,24 @@
 version: '3.7'
 
 services:
+
+  naming-server:
+    image: nikkscode/naming-server:v0.0.1
+    pull_policy: always
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - currency-network
+
   currency-exchange:
     image: nikkscode/currency-exchange-service:v0.0.2
+    pull_policy: always
     deploy:
+      replicas: 1
       resources:
         limits:
           memory: 700m
@@ -13,12 +28,17 @@ services:
       - currency-network
     depends_on:
       - naming-server
+      - rabbitmq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
-  conversion-exchange-service:
+  currency-conversion:
     image: nikkscode/currency-conversion-service:v0.0.1
+    pull_policy: always
     deploy:
       resources:
         limits:
@@ -29,12 +49,17 @@ services:
       - currency-network
     depends_on:
       - naming-server
+      - rabbitmq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
   api-gateway:
     image: nikkscode/api-gateway:v0.0.1
+    pull_policy: always
     deploy:
       resources:
         limits:
@@ -45,31 +70,50 @@ services:
       - currency-network
     depends_on:
       - naming-server
+      - rabbitmq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
-      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
-  naming-server:
-    image: nikkscode/naming-server:v0.0.1
+  zipkin-server:
+    image: openzipkin/zipkin:2.23.1-arm64
+    pull_policy: always
     deploy:
       resources:
         limits:
           memory: 700m
+      restart_policy:
+        condition:
+          on-failure
+        delay: 5s
+        max_attempts: 3
     ports:
-      - "8761:8761"
+      - "9411:9411"
     networks:
       - currency-network
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      RABBIT_USE_SSL: "false"
+      RABBIT_QUEUE: zipkin
+    depends_on:
+      - rabbitmq
 
-  zipkin-server:
-    image: openzipkin/zipkin:2.23
+  rabbitmq:
+    image: rabbitmq:3.9.22-management
+    pull_policy: always
     deploy:
       resources:
         limits:
           memory: 300m
     ports:
-      - "9411:9411"
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - currency-network
 
 networks:
   currency-network:
+    driver: bridge
