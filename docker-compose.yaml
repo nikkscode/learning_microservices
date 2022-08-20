@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  currency-exchange:
+    image: nikkscode/currency-exchange-service:v0.0.2
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    ports:
+      - "8000:8000"
+    networks:
+      - currency-network
+
+networks:
+  currency-network:
