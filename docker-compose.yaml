@@ -79,7 +79,7 @@ services:
       SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
   zipkin-server:
-    image: openzipkin/zipkin:2.23.1-arm64
+    image: openzipkin/zipkin:2.23.1
     pull_policy: always
     deploy:
       resources:
