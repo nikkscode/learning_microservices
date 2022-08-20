@@ -1,5 +1,8 @@
 package com.nikkscode.microservices.currencyexchangeservice;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +17,9 @@ public class CircuitBreakerController {
     private Logger logger = LoggerFactory.getLogger(CircuitBreakerController.class);
 
     @GetMapping("/sample-api")
-    @Retry(name = "sample-api", fallbackMethod = "hardcodedResponse")
+    @CircuitBreaker(name = "default", fallbackMethod = "hardcodedResponse")
+    @RateLimiter(name = "default") //10s => 1000 calls to the sample api
+    @Bulkhead(name = "default")
     public String sampleApi(){
         logger.info("Sample Api received");
         ResponseEntity<String> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/some-dumy-url",String.class);
@@ -22,6 +27,6 @@ public class CircuitBreakerController {
     }
 
     public String hardcodedResponse(Exception ex){
-        return "fallbacl-response";
+        return "fallback-response";
     }
 }
