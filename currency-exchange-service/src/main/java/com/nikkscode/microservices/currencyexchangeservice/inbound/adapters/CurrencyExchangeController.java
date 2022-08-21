@@ -1,6 +1,8 @@
-package com.nikkscode.microservices.currencyexchangeservice;
+package com.nikkscode.microservices.currencyexchangeservice.inbound.adapters;
 
 
+import com.nikkscode.microservices.currencyexchangeservice.businesslogic.CurrencyExchange;
+import com.nikkscode.microservices.currencyexchangeservice.outbound.ports.repositoryinterface.CurrencyExchangeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ public class CurrencyExchangeController {
     @GetMapping("/currency-exchange/from/{from}/to/{to}")
     public CurrencyExchange retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
 
+        // Query invocation
         logger.info("retrieveExChangeValue called with {} to {}", from, to);
         CurrencyExchange currencyExchange = repository.findByFromAndTo(from,to);
 

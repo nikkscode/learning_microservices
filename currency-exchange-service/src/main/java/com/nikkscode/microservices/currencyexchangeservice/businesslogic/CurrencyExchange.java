@@ -1,11 +1,9 @@
-package com.nikkscode.microservices.currencyexchangeservice;
-
+package com.nikkscode.microservices.currencyexchangeservice.businesslogic;
 
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
 
 @Entity
 public class CurrencyExchange {
@@ -30,8 +28,6 @@ public class CurrencyExchange {
         this.to = to;
         this.conversionMultiple = conversionMultipe;
     }
-
-
 
     public Long getId() {
         return id;
