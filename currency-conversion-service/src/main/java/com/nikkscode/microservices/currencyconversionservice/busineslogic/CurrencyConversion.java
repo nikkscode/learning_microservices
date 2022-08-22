@@ -1,4 +1,4 @@
-package com.nikkscode.microservices.currencyconversionservice;
+package com.nikkscode.microservices.currencyconversionservice.busineslogic;
 
 import java.math.BigDecimal;
 
