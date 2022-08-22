@@ -26,13 +26,13 @@ A Message Broker:
 
 ### 1. Run the application with Pre-build Containers (for M1-Architecture):
 ``` 
-$ cd ./Docker/preBuild
+$ cd /Docker/preBuild
 $ docker-compose up
 ```
 
 ### 2. Build the Images and Run the Containers with:
 ```
-$ cd ./Docker/build
+$ cd /Docker/build
 $ docker-compose up
 ```
 
