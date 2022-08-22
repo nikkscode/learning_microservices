@@ -11,7 +11,7 @@ services:
     ports:
       - "8761:8761"
     networks:
-      - currency-network
+      - build_currency-network
 
   currency-exchange:
     build: ../../currency-exchange-service
@@ -23,7 +23,7 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - currency-network
+      - build_currency-network
     depends_on:
       - naming-server
       - rabbitmq
@@ -43,7 +43,7 @@ services:
     ports:
       - "8100:8100"
     networks:
-      - currency-network
+      - build_currency-network
     depends_on:
       - naming-server
       - rabbitmq
@@ -63,7 +63,7 @@ services:
     ports:
       - "8765:8765"
     networks:
-      - currency-network
+      - build_currency-network
     depends_on:
       - naming-server
       - rabbitmq
@@ -89,7 +89,7 @@ services:
     ports:
       - "9411:9411"
     networks:
-      - currency-network
+      - build_currency-network
     environment:
       RABBIT_URI: amqp://guest:guest@rabbitmq:5672
       RABBIT_USE_SSL: "false"
@@ -108,8 +108,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-      - currency-network
+      - build_currency-network
 
 networks:
-  currency-network:
+  build_currency-network:
     driver: bridge
