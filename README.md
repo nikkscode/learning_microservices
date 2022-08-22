@@ -2,16 +2,23 @@
 
 This is a learning project based on a Udemy course by "in28minutes".
 
-## Overview
 
-| Application name                 | Port                 |
-|----------------------------------|----------------------|
-| Limits Microservice              | 8080, 8081,...       |
-| Spring Cloud Config Server       | 8888                 |
-| Currency Exchange Microservice   | 8000, 8001, 8002,... |     
-| Currency Conversion Microservice | 8100, 8101, 8102,... |
-| Netflix Eureka Naming Server     | 8761                 |
-| API Gateway                      | 8765                 |
+# Basic Architecture
+
+The architecture consists of 4 Microservices:
+- Eureka Discovery Service (Naming Server)
+- Currency Conversion Service
+- Currency Exchange Service (with h2 in-memory Database)
+- Zipkin Server (for Tracing)
+
+An Api Gateway:
+- Spring Cloud Api Gateway
+
+A Message Broker:
+- RabbitMq 
+
+![alt text](basicArchitecture.png)
+
 
 ## URLs
 
