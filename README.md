@@ -2,7 +2,6 @@
 
 This is a learning project based on a Udemy course by "in28minutes".
 
-
 # Basic Architecture
 
 The architecture consists of 4 Microservices:
@@ -19,6 +18,23 @@ A Message Broker:
 
 ![alt text](basicArchitecture.png)
 
+
+# How to Build
+## Requirements: 
+ - Docker
+ - Docker Compose
+
+### 1. Run the application with Pre-build Containers (for M1-Architecture):
+``` 
+$ cd ./Docker/preBuild
+$ docker-compose up
+```
+
+### 2. Build the Images and Run the Containers with:
+```
+$ cd ./Docker/build
+$ docker-compose up
+```
 
 ## URLs
 
