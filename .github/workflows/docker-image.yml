@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Api-Gatway Docker image
-      run: docker build --tag api-gateway:$(date +%s) -f Dockerfile /api-gateway/Dockerfile 
+      run: docker build --tag api-gateway:$(date +%s) -f Dockerfile ./api-gateway/Dockerfile 
     - name: Build the currency-conversion-service Docker Image
       run: docker build ./currency-conversion-service --file Dockerfile --tag api-gateway:$(date +%s)
     - name: Build the currency-exchange-service Docker Image
