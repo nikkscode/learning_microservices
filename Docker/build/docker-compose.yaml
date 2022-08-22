@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   naming-server:
-    build: ./naming-server
+    build: ../../naming-server
     deploy:
       resources:
         limits:
@@ -14,7 +14,7 @@ services:
       - currency-network
 
   currency-exchange:
-    build: ./currency-exchange-service
+    build: ../../currency-exchange-service
     deploy:
       replicas: 1
       resources:
@@ -35,7 +35,7 @@ services:
       SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
   currency-conversion:
-    build: ./currency-conversion-service
+    build: ../../currency-conversion-service
     deploy:
       resources:
         limits:
@@ -55,7 +55,7 @@ services:
       SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
   api-gateway:
-    build: ./api-gateway
+    build: ../../api-gateway
     deploy:
       resources:
         limits:
